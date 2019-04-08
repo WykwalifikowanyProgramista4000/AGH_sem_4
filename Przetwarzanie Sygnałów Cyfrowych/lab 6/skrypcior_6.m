@@ -111,7 +111,7 @@ fvtool(bM)
 
 %outF = filter(bM,1,y); 
 
-xfft=abs(fft(outF)); 
+%xfft=abs(fft(outF)); 
 xfft=xfft/13129; 
 x1=1:1:6564; 
 %bar(x1(1:6564), xfft(1:6564));   
@@ -371,27 +371,24 @@ load FFT_filtracja_wiatrak24.txt
 load FFT_filtracja_przekladnia23.txt
 load FFT_filtracja_przekladnia24.txt
 
+x = 'wiatrak 23 |========================================================='
 D=sum(abs(FFT_filtracja_wiatrak23-FFT_filtracja_wiatrak20))
 D=sum(abs(FFT_filtracja_wiatrak23-FFT_filtracja_wiatrak21))
 D=sum(abs(FFT_filtracja_wiatrak23-FFT_filtracja_przekladnia20))
 D=sum(abs(FFT_filtracja_wiatrak23-FFT_filtracja_przekladnia21))
-
+x = 'wiatrak 24 |========================================================='
 D=sum(abs(FFT_filtracja_wiatrak24-FFT_filtracja_wiatrak20))
 D=sum(abs(FFT_filtracja_wiatrak24-FFT_filtracja_wiatrak21))
 D=sum(abs(FFT_filtracja_wiatrak24-FFT_filtracja_przekladnia20))
 D=sum(abs(FFT_filtracja_wiatrak24-FFT_filtracja_przekladnia21))
-
+x = 'przekladnia 23 |========================================================='
 D=sum(abs(FFT_filtracja_przekladnia23-FFT_filtracja_wiatrak20))
 D=sum(abs(FFT_filtracja_przekladnia23-FFT_filtracja_wiatrak21))
 D=sum(abs(FFT_filtracja_przekladnia23-FFT_filtracja_przekladnia20))
 D=sum(abs(FFT_filtracja_przekladnia23-FFT_filtracja_przekladnia21))
-
+x = 'przekladnia 24 |========================================================='
 D=sum(abs(FFT_filtracja_przekladnia24-FFT_filtracja_wiatrak20))
 D=sum(abs(FFT_filtracja_przekladnia24-FFT_filtracja_wiatrak21))
 D=sum(abs(FFT_filtracja_przekladnia24-FFT_filtracja_przekladnia20))
 D=sum(abs(FFT_filtracja_przekladnia24-FFT_filtracja_przekladnia21))
 
-D=sum(abs(FFT_filtracja_wiatrak23-FFT_filtracja_wiatrak20))
-D=sum(abs(FFT_filtracja_wiatrak23-FFT_filtracja_wiatrak21))
-D=sum(abs(FFT_filtracja_wiatrak23-FFT_filtracja_przekladnia20))
-D=sum(abs(FFT_filtracja_wiatrak23-FFT_filtracja_przekladnia21))

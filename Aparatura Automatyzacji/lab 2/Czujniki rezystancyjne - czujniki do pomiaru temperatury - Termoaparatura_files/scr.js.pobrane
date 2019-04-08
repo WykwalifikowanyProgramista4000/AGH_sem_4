@@ -1,0 +1,118 @@
+    $(document).ready(function () {
+        $('#h_menu > ul > li > a').addClass('cufon');
+        Cufon.replace('.cufon');
+        $('#h_menu ul').nddMenu();
+        $("#mproducts").showHint();
+		
+		site_root = $('#site_root_hid').val();
+		lang_id = $('#lang_id_hid').val();
+		lang = 'pl';
+		if (lang_id == '2'){
+			lang = 'en';
+		}
+
+        $('#calc').calcInit();
+        $('#long').calcOperate({
+            ajax_url: site_root+'calculator.php',
+            lg: lang_id
+        });
+        $('#pressure').calcOperate({
+            ajax_url: site_root+'calculator.php',
+            lg: lang_id
+        });
+        $('#temp').calcOperate({
+            ajax_url: site_root+'calculator.php',
+            lg: lang_id
+        });
+
+        $('#t_pt100').termoCalcOperate({
+            ajax_url: site_root+'termo_calculator.php',
+            lg: lang_id
+        });
+        $('#t_ni100').termoCalcOperate({
+            ajax_url: site_root+'termo_calculator.php',
+            lg: lang_id
+        });
+
+        $('#t_j').termoCalcOperate({
+            ajax_url: site_root+'termo_calculator.php',
+            lg: lang_id
+        });
+        $('#t_k').termoCalcOperate({
+            ajax_url: site_root+'termo_calculator.php',
+            lg: lang_id
+        });
+        $('#t_n').termoCalcOperate({
+            ajax_url: site_root+'termo_calculator.php',
+            lg: lang_id
+        });
+        $('#t_e').termoCalcOperate({
+            ajax_url: site_root+'termo_calculator.php',
+            lg: lang_id
+        });
+        $('#t_t').termoCalcOperate({
+            ajax_url: site_root+'termo_calculator.php',
+            lg: lang_id
+        });
+        $('#t_r').termoCalcOperate({
+            ajax_url: site_root+'termo_calculator.php',
+            lg: lang_id
+        });
+        $('#t_s').termoCalcOperate({
+            ajax_url: site_root+'termo_calculator.php',
+            lg: lang_id
+        });
+        $('#t_b').termoCalcOperate({
+            ajax_url: site_root+'termo_calculator.php',
+            lg: lang_id
+        });
+
+        $('#head_tab').click(function () {
+            $('#head_tab_termo').removeClass('head_tab_termo_active').addClass('head_tab_termo');
+            $('#head_tab').removeClass('head_tab').addClass('head_tab_active');
+            $('.termo_cont').css({'z-index': 101});
+        });
+
+        $('#head_tab_termo').click(function () {
+            $('#head_tab').removeClass('head_tab_active').addClass('head_tab');
+            $('#head_tab_termo').removeClass('head_tab_termo').addClass('head_tab_termo_active');
+            $('.termo_cont').css({'z-index': 102});
+        });
+
+        $('#types').dynamicTabs();
+        $('#searchAjax').click(function() {
+            location.href = site_root+lang+'/search?q=' + $('#searchAjaxQuery').val() + '&submit=więcej';
+        });
+
+        $('#searchAjaxQuery').keyup(function (e) {
+            if ($(this).val().length > 2) {
+                var block;
+                if (e.keyCode == '13') {
+                    location.href = site_root+lang+'/search?q=' + $('#searchAjaxQuery').val() + '&submit=więcej';
+                    block = true;
+                } else {
+                    setTimeout(function() {
+                        if($('#searchAjaxQuery').val() == this && !block) {
+                            console.log('ajax')
+                            $.get(site_root+lang+'/search_ajax', {q: $('#searchAjaxQuery').val()}, function (data) {
+                                $('#searchAjaxRes').show();
+                                $('#Query').val($('#searchAjaxQuery').val());
+                                $('#searchAjaxRes .res').empty().html(data);
+                            });
+                        } else {
+                        }
+                    }.bind($('#searchAjaxQuery').val()), 1500);
+                }
+            }
+        });
+
+        $('#CloseAjax').click(function () {
+            $('#searchAjaxRes').css({'display': 'none'});
+        });
+
+        $("a.lightbox").lightBox();
+
+
+        $('#termo_types').dynamicTabs();
+
+    });

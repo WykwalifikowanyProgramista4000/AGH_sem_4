@@ -1,0 +1,20 @@
+$(document).ready(function(){
+//            $('#phone').mask('999999999');
+
+            /* podgląd mapki */
+            var map = '{/literal}{$article.custom_fields.google.maps|strip}{literal}';
+            $('#layer').center();
+            $('#show-map').click(function(){
+                $('body').bodyOpacity('add');
+                $('#layer').css({'display' : 'block'});
+                $('#layer .cnt').html(map);
+            });
+            $('#layer .exit').click(function(){
+                $('body').bodyOpacity('remove');
+                $('#layer').css({'display' : 'none'});
+            });
+
+			
+    $('#left-news').featuredSlider();
+ });
+ 

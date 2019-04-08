@@ -1,0 +1,544 @@
+    /* fetured banner plugin - front page slider */
+(function($){
+    $.fn.featuredBanner = function(options){
+        var opts = $.extend({
+            interval: 8000
+        },options);
+        
+        var $s = $(this).find('.wrap');
+
+        $s.children().hide();
+        $s.children(':first').show().addClass('active');
+
+        //tlo w backgroundzie slidera
+        var $bg = $(this).find('.big-bg');
+        $bg.children().hide();
+        $bg.children(':first').show().addClass('active');
+
+        var Toggle = function(){
+            var $active = $s.find('.active');
+            if ( $active.length == 0 ) $active = $s.find('.item:last');
+            var $next =  $active.next().length ? $active.next() : $s.find('.item:first');
+            $active.addClass('last-active');
+
+            $s.children().hide();
+            $next.addClass('active').fadeIn(1000,function(){
+                $active.removeClass('active last-active');
+            })
+        }
+
+        var ToggleBg = function(){
+            var $active = $bg.find('.active');
+            if ( $active.length == 0 ) $active = $bg.find('img:last');
+            var $next =  $active.next().length ? $active.next() : $bg.find('img:first');
+            $active.addClass('last-active');
+            $bg.children().hide();
+            $next.addClass('active').fadeIn(400,function(){
+                $active.removeClass('active last-active');
+            })
+        }
+
+        if($s.children().length > 1){
+            setInterval(Toggle,opts.interval);
+            setInterval(ToggleBg,opts.interval);
+        }
+    }
+})(jQuery);
+
+/* featured slider plugin - category list slider */
+(function($){
+    $.fn.featuredSlider = function(options){
+        var opts = $.extend({
+            interval: 4000
+        },options);
+
+        var toggleInterval = 0;
+        var $s = $(this).find('.wrap');
+        $s.children().hide();
+        $s.children(':first').show().addClass('active');
+
+        var Toggle = function(){
+            var $active = $s.find('.active');
+            if ( $active.length == 0 ) $active = $s.find('.item:last');
+            var $next =  $active.next().length ? $active.next() : $s.find('.item:first');
+            $active.addClass('last-active');
+
+            $s.children().hide();
+            $next.addClass('active').fadeIn(1000,function(){
+                $active.removeClass('active last-active');
+            })
+
+            $s.parent().find('.panel a').removeClass('active');
+            $s.parent().find('.panel a#tab_' + $next.attr('id')).addClass('active');
+        }
+
+        if($s.children().length > 1){
+            toggleInterval = setInterval(Toggle,opts.interval);
+        }
+
+        $s.parent().find('.panel a:first').addClass('active');
+        var slide;
+        $s.parent().find('.panel a').click(function(){
+            if($s.children().length > 1){
+                clearInterval(toggleInterval);
+            }
+            slide = $(this).attr('href');
+            $s.children().removeClass('active').hide();
+            $s.find('#slide_' + slide.replace("#","")).addClass('active').show();
+
+            $s.parent().find('.panel a').removeClass('active');
+            $s.parent().find('.panel a#' + $(this).attr('id')).addClass('active');
+            if($s.children().length > 1){
+                toggleInterval = setInterval(Toggle,opts.interval);
+            }
+
+            return false;
+        });
+    }
+})(jQuery);
+
+/* product gallery plugin */
+(function($){
+    $.fn.gallery = function(){
+        var $gallery = $(this);
+        var active;
+
+        //wysrodkowanie obrazka w oknie
+        var windowHeight = 264;
+        var thisHeight = 0;
+        $gallery.find('.window a img').each(function(){
+            thisHeight = $(this).height();
+            if(thisHeight < windowHeight){
+                var margin = windowHeight - thisHeight;
+                $(this).css({'marginTop' : (margin/2) + 'px'});
+            }
+        });
+
+        $gallery.find('.window').find('.item').hide();
+        $gallery.find('.window').children(':first').addClass('active');
+        $gallery.find('.window').children(':first').show();
+        $gallery.find('ul').children(':first').addClass('active-thumb');
+
+        // zmodyfikowana zostala funkcja _resize_container_image_box - ustawienie maksymalnych wymiarow zdjecia (zakomentowane: dopisany kod)
+        $gallery.find('.window a').lightBox({
+            maxWidth: 640,
+            maxHeight: 480
+        });
+
+        $gallery.find('ul').children().click(function(){
+            $gallery.find('.window').find('.item').hide();
+            $gallery.find('ul').children().removeClass('active-thumb');
+            $gallery.find('.window').children().removeClass('active');
+            active = $(this).find('a').attr('href');
+            $(this).addClass('active-thumb');
+            $gallery.find('.window').find(active).addClass('active');
+            $(active).fadeIn();
+            return false;
+        });
+    }
+})(jQuery);
+
+/* simple tabs plugin */
+(function($){
+    $.fn.tabs = function(){
+        var $tabs = $(this);
+        var active,firstactive,lastactive;
+
+        $tabs.find('#tab_container').children().hide();
+        firstactive = $tabs.find('ul').children().find('a').attr('href');
+        if(firstactive){
+            $tabs.find('ul').find('li:first').addClass('active').find('a').addClass(firstactive.replace("#","") + '-active');
+        }
+        $tabs.find('#tab_container').children(':first').show();
+        $tabs.find('#ui-tabs-nav li').click(function(){
+            lastactive = $tabs.find('.active a').attr('href');
+            $tabs.find('.active a').removeClass(lastactive.replace("#","") + '-active');
+            $tabs.find('ul').children().removeClass('active');
+            $(this).addClass('active');
+            $tabs.find('#tab_container').children().hide();
+
+            active = $(this).find('a').attr('href');
+            $(this).find('a').addClass(active.replace("#","") + '-active');
+            $(active).fadeIn();
+            return false;
+        });
+    }
+})(jQuery);
+
+/* dynamic tabs plugin */
+(function($){
+    $.fn.dynamicTabs = function(options){
+        var opts = $.extend({
+            setHooks: false
+        },options);
+        var $tabs = $(this);
+
+        //set first tab on active
+        var first = false;
+        if(window.location.hash.length > 0){
+            if($(window.location.hash.replace("tab_","")).length != 0){
+                $tabs.find('a[href=' + window.location.hash.replace("tab_","") + ']').addClass('active');
+                $tabs.find('.elems').children().hide();
+                $tabs.find('.elems').children().eq(parseInt(window.location.hash.replace("#tab_t","")) - 1).show();
+            }else{
+                first = true;
+            }
+        }else{
+            first = true;
+        }
+
+        if(first){
+            $tabs.find('.panel li:first a').addClass('active');
+            $tabs.find('.elems').children().hide();
+            $tabs.find('.elems').children(':first').show();
+        }
+
+        //pick tab
+        $tabs.find('.panel li a').click(function(){
+            $tabs.find('.panel').find('a').removeClass('active');
+            $(this).addClass('active');
+
+            $tabs.find('.elems').children().hide();
+            $tabs.find('.elems').find($(this).attr('href')).show();
+
+            if(opts.setHooks){
+                window.location.hash = $(this).attr('href').replace('#','#tab_');
+            }
+
+            return false;
+        });
+    }
+})(jQuery);
+
+/* dropdown menu top */
+(function($){
+    $.fn.nddMenu = function(){
+        var $menu = $(this);
+
+        /*first dropdown*/
+        $menu.children().each(function(){
+            $(this).hover(function(){
+                $(this).addClass('active');
+                $(this).find('ul').fadeIn(500);
+            },function(){
+                $(this).removeClass('active');
+                $(this).find('ul').fadeOut(200);
+            });
+        });
+    }
+})(jQuery);
+
+/* termoaparatura page addons */
+(function($){
+    $.fn.showHint = function(options){
+        var opts = $.extend({
+            hoverElement: 'a',
+            hintClass: '.hint'
+        },options);
+
+        var $obj = $(this);
+
+        $obj.find(opts.hintClass).hide();
+
+        var lastactive;
+        $obj.find(opts.hoverElement).mouseover(function(){
+            $obj.parent().css({
+                'z-index' : '2'
+            });
+            $(this).parent().find('> ' + opts.hintClass).addClass('hintActive').show();
+        }).mouseout(function(){
+            $obj.parent().css({
+                'z-index' : '1'
+            });
+            $(this).parent().find('> ' + opts.hintClass).removeClass('hintActive').hide();
+        });
+    }
+})(jQuery);
+
+(function($){
+    $.fn.configHint = function(options){
+        var opts = $.extend({
+            hoverElement: 'li',
+            hintClass: '.hint'
+        },options);
+
+        var $obj = $(this);
+
+        $obj.find(opts.hoverElement).mouseover(function(){
+            $(this).find('> ' + opts.hintClass).show();
+        }).mouseout(function(){
+            $(this).find('> ' + opts.hintClass).hide();
+        });
+    }
+})(jQuery);
+(function($){
+    $.fn.configShow = function(options){
+        var opts = $.extend({
+            slidingClass: '.box'
+        },options);
+
+        var $cnt = $(this);
+
+        $cnt.parent().find(opts.slidingClass).hide();
+        
+        var i = 0;
+        $cnt.click(function(){
+            if($(this).hasClass('active')){
+                $(this).removeClass('active');
+            }else{
+                $(this).addClass('active');
+            }
+
+            $(this).parent().find(opts.slidingClass).slideToggle('slow',function(){
+                /* akcja na duzym obrazku konfiguratora - rozwijanie i zwijanie */
+                if(i == 0){
+                    $cnt.parent().find('.conf-pic .pic').animate({'marginLeft' : '0px'},500); i=1;
+                }else{
+                    $cnt.parent().find('.conf-pic .pic').animate({'marginLeft' : '276px'},0); i=0;
+                }
+            });
+
+            //measure feature name height and add marginTop if necessary
+            var height = 0;
+            $('#configure .box .cnt .list .item span.name').each(function(){
+                height = $(this).height();
+                //console.log(height);
+                if(height == 14){
+                    $(this).css({'margin-top' : '7px'});
+                }
+            });
+        });
+    }
+})(jQuery);
+(function($){
+    $.fn.configShowCart = function(options){
+        var opts = $.extend({
+            slidingClass: '.box'
+        },options);
+
+        var $cnt = $(this);
+        $('#config-block').find('#configure').hide();
+
+        var i = 0;
+        var act;
+        $cnt.click(function(){
+            if($(this).hasClass('active')){
+                $(this).removeClass('active');
+                $(this).css({'display' : 'block'});
+                $(this).parent().find('.active-cart-btn').css({'display' : 'none'});
+            }else{
+                $(this).addClass('active');
+                $(this).css({'display' : 'none'});
+
+                $(this).parent().find('.active-cart-btn').css({'display' : 'block'});
+                $('body').bodyOpacity('add');
+            }
+            $('#config-block').find('.' + $(this).attr('id')).configPicker();
+            $('#config-block').find('.' + $(this).attr('id')).addClass('active-config').show('slow');
+        });
+        
+        $('#config-block').find('.active-cart-btn').click(function(){
+            $('#config-block').find('.active-config').hide().removeClass('active-config');
+            $('body').bodyOpacity('remove');
+            $cnt.removeClass('active');
+            $cnt.show();
+        });
+    }
+})(jQuery);
+(function($){
+    $.fn.configPicker = function(){
+        var $picker = $(this);
+
+        var current = $picker.find('.item:first').attr('id');
+        $picker.find('.item:first').addClass('active');
+        $picker.find('.ctab').css({
+            'display' : 'none',
+            'z-index' : '-100'
+        });
+        $picker.find('.ctab:first').css({
+            'display' : 'block',
+            'z-index' : '11'
+        });
+        $picker.find('.item').click(function(){
+            current = $(this).attr('id');
+            $picker.find('.item').removeClass('active');
+            $(this).addClass('active');
+
+            $picker.find('.ctab').css({
+                'display' : 'none',
+                'z-index' : '-100'
+            });
+            $picker.find('#ctab_' + $(this).attr('id')).css({
+                'display' : 'block',
+                'z-index' : '11'
+            });
+        });
+
+
+        $picker.find('.citem input[type=radio]').click(function(){
+            $picker.find('#' + current + ' span.tick').css({'visibility' : 'visible'});
+            if($(this).attr('title') != 'xxx')
+                $picker.find('#' + current + ' span.var').text($(this).attr('title'));
+            else {
+				//console.log('#' + current + ' span.var');
+				//console.log($(this).parent().parent().find('input[type="text"]').val());
+                $picker.find('#' + current + ' span.var').text($(this).parent().parent().find('input[type="text"]').val());
+            }
+        });
+        $picker.find('.citem input[type=text]').change(function() {
+            $picker.find('#' + current + ' span.var').text($(this).val());
+            $(this).parent().find('input[type="radio"]').click();
+        });
+    }
+})(jQuery);
+
+(function($){
+    $.fn.calcInit = function(){
+        var $calc = $(this);
+
+        var on = false;
+        $calc.find('.sCalc').click(function(){
+            if(!on){
+                $(this).parent().animate({'right' : '0px'},500,function(){
+                    on = true;
+                });
+            }else{
+                $(this).parent().animate({'right' : '-520px'},500,function(){
+                    on = false;
+                });
+            }
+
+            return false;
+        });
+    }
+})(jQuery);
+
+(function($){
+    $.fn.calcOperate = function(options){
+        var opts = $.extend({
+            ajax_url : '',
+            lg: ''
+        },options);
+        var $calc = $(this);
+
+        $calc.find('input.calculate').click(function(){
+            if(!isNaN($calc.find('input.param').val())){
+                if($calc.find('input.param').val().length > 0){
+                    $.post(opts.ajax_url,{param: $calc.find('input.param').val(),mode: $calc.find('input.mode').val(),type: $calc.find('select.param_type option:selected').val(),lg: opts.lg},
+                        function(data){
+                            $calc.find('.result').html(data);
+                        }
+                    );
+                }else{
+                    $calc.find('.result').html('<span class="error">Musisz podać wszystkie wymagane parametry.</span>');
+                }
+            }else{
+                $calc.find('.result').html('<span class="error">Wprowadzona wartość musi być liczbą.</span>');
+            }
+        });
+    }
+})(jQuery);
+
+(function($){
+    $.fn.termoCalcOperate = function(options){
+        var opts = $.extend({
+            ajax_url : '',
+            lg: ''
+        },options);
+        var $calc = $(this);
+
+        $calc.find('input.calculate_resistance').click(function(){
+        	val = $calc.find('input.param_resistance').val();
+        	val = val.replace(',','.');
+            if(!isNaN(val)){
+                if($calc.find('input.param_resistance').val().length > 0){
+                    $.post(opts.ajax_url,{resistance: $calc.find('input.param_resistance').val(),type: $calc.find('input.type').val(),lg: opts.lg, out_of_scale: $('#out_of_scale').val(), cjc: $calc.find('input.param_cjc').val()},
+                        function(data){
+                    		$calc.find('.result').html('');
+                            $calc.find('.result_temperature').html(data);
+                        }
+                    );
+                }else{
+                    $calc.find('.result').html('<span class="error">Musisz podać wszystkie wymagane parametry.</span>');
+                }
+            }else{
+                $calc.find('.result').html('<span class="error">Wprowadzona wartość musi być liczbą.</span>');
+            }
+        });
+        
+        $calc.find('input.calculate_temperature').click(function(){
+        	val = $calc.find('input.param_temperature').val();
+        	val = val.replace(',','.');
+            if(!isNaN(val)){
+                if($calc.find('input.param_temperature').val().length > 0){
+                    $.post(opts.ajax_url,{temperature: $calc.find('input.param_temperature').val(),type: $calc.find('input.type').val(),lg: opts.lg, out_of_scale: $('#out_of_scale').val(), cjc: $calc.find('input.param_cjc').val()},
+                        function(data){
+                    		$calc.find('.result').html('');
+                            $calc.find('.result_resistance').html(data);
+                        }
+                    );
+                }else{
+                    $calc.find('.result').html('<span class="error">Musisz podać wszystkie wymagane parametry.</span>');
+                }
+            }else{
+                $calc.find('.result').html('<span class="error">Wprowadzona wartość musi być liczbą.</span>');
+            }
+        });
+    }
+})(jQuery);
+
+/* plugin nakładający połprzeźroczystą warstwę na content strony */
+(function($){
+    $.fn.bodyOpacity = function(options){
+        if(options == 'add'){
+            $(this).append('<div id="opacity"></div>');
+            $('#opacity').css({
+                'position' : 'absolute',
+                'top' : '0',
+                'left' : '0',
+                'display' : 'block',
+                'width' : $(window).width() + 'px',
+                'height' : (($(document).height() > $(window).height()) ? $(document).height() : $(window).height()) + 'px',
+                'backgroundColor' : '#D7D7D7',
+                'zIndex' : '10',
+                'opacity' : '0.8'
+            });
+        }else if(options == 'remove'){
+            $('#opacity').css({
+                'display' : 'none'
+            });
+        }
+    }
+})(jQuery);
+
+(function($){
+    $.fn.confCenter = function(){
+        $(this).css("top", ( $(window).height() - $(this).height() ) / 2+$(window).scrollTop() + "px");
+        $(this).css("left", ( $(window).width() - $(this).width() ) / 2+$(window).scrollLeft() + "px");
+        return $(this);
+    }
+})(jQuery);
+
+(function($){
+    $.fn.confCenter = function(){
+        var width = 674;
+        var left = ($(window).width() - width) / 2;
+        $(this).css({
+            'left' : left + 604 + 'px',
+            'top' : '80px'
+        });
+    }
+})(jQuery);
+
+(function($){
+    $.fn.center = function(){
+        var width = $(this).width();
+        var height = $(this).height();
+        var left = ($(window).width() - width) / 2;
+        var top = ($(window).height() - height) / 2;
+        $(this).css({
+            'left' : left + 'px',
+            'top' : top + 'px'
+        });
+    }
+})(jQuery);

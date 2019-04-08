@@ -1,0 +1,286 @@
+function ic_cookies(set_box_position,set_display_seconds,set_bgcolor,set_color){
+	
+	displayTimes = 0;
+	
+	if(!cdReadCookie('ic_cookies')) {
+	
+		var box_position = set_box_position;
+		var display_seconds = parseInt(set_display_seconds);
+		var color = '#ffffff';
+		var bgcolor = '#000000';
+	
+		if((box_position.toLowerCase() != 'top') && (box_position.toLowerCase() != 'bottom')) {
+			box_position = 'top';
+		}
+		/*
+		if (!display_seconds){
+			display_seconds = parseInt(10);
+		}
+		*/
+				
+		if (set_color){
+			color = set_color;
+		}
+		if (set_bgcolor){
+			bgcolor = set_bgcolor;
+		}
+		
+		var jQueryVersion = '1.5';
+		
+		if (window.jQuery === undefined || window.jQuery.fn.jquery < jQueryVersion) {
+			
+			var s = document.createElement("script");
+			s.src = "https://code.jquery.com/jquery-latest.js";
+			s.type = "text/javascript";
+			s.onload = s.onreadystatechange = function() {
+			
+				if ((!s.readyState || s.readyState == "loaded" || s.readyState == "complete")) {
+					cookieBox_js(box_position,display_seconds,bgcolor,color);
+				}
+			};
+			
+			document.getElementsByTagName("head")[0].appendChild(s);
+		}else{
+			cookieBox_js(box_position,display_seconds,bgcolor,color);
+		}
+	}
+};
+
+function cookieBox_js(box_position,display_seconds,bgcolor,color){
+	$(document).ready(function(){
+		$(document).cookiesBox({
+			box_position:box_position,
+			display_seconds:display_seconds,
+			bgcolor:bgcolor,
+			color:color
+		});
+	});
+	
+	(function($){
+	    $.fn.cookiesBox = function(options){
+	        var opts = $.extend({
+	        	box_position:top,
+	        	display_seconds:10,
+	        	bgcolor:'#ffffff',
+	        	color:'#000000',
+	        	ic_path:'/js/ic_cookies'
+	        },options);
+	        
+	        ic_path = get_ic_path('ic_cookies.js');
+	        
+	        //ic_path = opts.ic_path;
+	        box_position = opts.box_position;
+	        display_seconds = parseInt(opts.display_seconds);
+	        bgcolor = opts.bgcolor;
+	        color = opts.color;
+	        
+	        url = ic_path+'/ic_licence.php';
+        	
+        	$.getJSON(url,{
+        		box_position:box_position,
+        		bgcolor:bgcolor,
+        		color:color,
+        		ic_path:ic_path
+        	},function(data) {
+        		var divNode = document.createElement('div');
+        		divNode.setAttribute('id','ic_cookies_ar');
+        		document.body.appendChild(divNode);
+        			
+        		var cookies_box = data['ic_cookies'];
+        		
+        		$("#ic_cookies_ar").html(cookies_box);
+        		
+        		policy_privacy_fun();
+        		
+        		if(box_position.toLowerCase() == 'top') { 
+        		
+        			$('#ic_cookies').animate({
+        			    top: '0'
+        			}, 1000, function() {
+        				$('#ic_cookies_submit').click(function() {
+        					// set cookie
+        					ic_create_cookie('ic_cookies',1,365,'top');
+        				});
+        				
+        				if (display_seconds){
+	        				setTimeout(function(){
+	        					$('#ic_cookies').animate({
+	        						opacity:'0'
+	        					},2000, function(){
+	        						$('#ic_cookies').css('top','-500px');
+	        					});
+	        				},display_seconds * 1000);
+        				}
+        			});
+        		} else {
+        			$('#ic_cookies').animate({
+        			    bottom: '0'
+        			}, 1000, function() {
+        				$('#ic_cookies_submit').click(function() {
+        					// set cookie
+        					ic_create_cookie('ic_cookies',1,365,'bottom');
+        				});
+        				
+        				if (display_seconds){
+	        				setTimeout(function(){
+	        					$('#ic_cookies').animate({
+	        						opacity:'0'
+	        					},2000, function(){
+	        						$('#ic_cookies').css('bottom','-500px');
+	        					});
+	        				},display_seconds * 1000);
+        				}
+        			});
+        		}
+            });
+	    }
+	})(jQuery);
+}
+
+(function($){
+    $.fn.cookiesBox = function(options){
+        var opts = $.extend({
+        	box_position:top,
+        	display_seconds:10,
+        	bgcolor:'#ffffff',
+        	color:'#000000',
+        	ic_path:'/js/ic_cookies'
+        },options);
+        
+        ic_path = get_ic_path('ic_cookies.js');
+        
+        //ic_path = opts.ic_path;
+        box_position = opts.box_position;
+        display_seconds = parseInt(opts.display_seconds);
+        bgcolor = opts.bgcolor;
+        color = opts.color;
+        
+        url = ic_path+'/ic_licence.php';
+    	
+    	$.getJSON(url,{
+    		box_position:box_position,
+    		bgcolor:bgcolor,
+    		color:color,
+    		ic_path:ic_path
+    	},function(data) {
+    		var divNode = document.createElement('div');
+    		divNode.setAttribute('id','ic_cookies_ar');
+    		document.body.appendChild(divNode);
+    			
+    		var cookies_box = data['ic_cookies'];
+    		
+    		$("#ic_cookies_ar").html(cookies_box);
+    		
+    		policy_privacy_fun();
+    		
+    		if(box_position.toLowerCase() == 'top') { 
+    		
+    			$('#ic_cookies').animate({
+    			    top: '0'
+    			}, 1000, function() {
+    				$('#ic_cookies_submit').click(function() {
+    					// set cookie
+    					ic_create_cookie('ic_cookies',1,365,'top');
+    				});
+    				
+    				if (display_seconds){
+        				setTimeout(function(){
+        					$('#ic_cookies').animate({
+        						opacity:'0'
+        					},2000, function(){
+        						$('#ic_cookies').css('top','-500px');
+        					});
+        				},display_seconds * 1000);
+    				}
+    			});
+    		} else {
+    			$('#ic_cookies').animate({
+    			    bottom: '0'
+    			}, 1000, function() {
+    				$('#ic_cookies_submit').click(function() {
+    					// set cookie
+    					ic_create_cookie('ic_cookies',1,365,'bottom');
+    				});
+    				
+    				if (display_seconds){
+        				setTimeout(function(){
+        					$('#ic_cookies').animate({
+        						opacity:'0'
+        					},2000, function(){
+        						$('#ic_cookies').css('bottom','-500px');
+        					});
+        				},display_seconds * 1000);
+    				}
+    			});
+    		}
+        });
+    }
+})(jQuery);
+
+function get_ic_path(namejs){
+	// find the base path of a script
+    var settings = {};
+    settings.basePath = null;
+
+    if (!settings.basePath) {
+      (function (name) {
+        var scripts = document.getElementsByTagName('script');
+
+        for (var i = scripts.length - 1; i >= 0; --i) {
+          var src = scripts[i].src;
+          var l = src.length;
+          var length = name.length;
+          if (src.substr(l - length) == name) {
+            // set a global propery here
+            settings.basePath = src.substr(0, l - length);
+          }
+        }
+      })(namejs);
+    }
+
+    return settings.basePath;
+}
+
+function ic_create_cookie(name,value,days,position){	
+	url = ic_path+'/ic_licence.php';
+	
+	$.getJSON(url,{
+		name:name,
+		value:value,
+		days:days,
+		position:position
+	},function(data) {
+		position = data['position'];
+		
+		$('#ic_cookies').animate({
+			position:'-500'
+		},1000,function() {
+			$('#ic_cookies').remove();
+		});
+    });
+}
+
+function policy_privacy_fun(){
+	$('#policy_privacy_sh').click(function(){
+		//$(this).fadeOut();
+		$('#icc_privacy_policy').fadeIn();
+		$('#ic_cookies').css('opacity',1);
+	});
+	
+	$('#icc_pclose').click(function(){
+		$('#icc_privacy_policy').fadeOut();
+		$('#ic_cookies').css('opacity',0.8);
+	});
+}
+
+//Simple Cookie functions from http://www.quirksmode.org/js/cookies.html
+function cdReadCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}
