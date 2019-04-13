@@ -22,7 +22,7 @@ m = [T 1];
 [licznik,mianownik] = series(ld,md, l, m);
 Inercja_I_delay = step(licznik, mianownik, czas);
 
-plot(t, Inercja_I_delay)
+plot(czas, Inercja_I_delay)
 
 krok = czas(2) - czas(1);
 blad2 = (Inercja_I_delay' - pomiary).^2;
