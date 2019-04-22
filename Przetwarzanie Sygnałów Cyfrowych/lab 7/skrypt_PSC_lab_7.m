@@ -1,7 +1,9 @@
-%% Zadanie 1
+%% Zadanie 1.1
 
 [b,a] = maxflat(4,1,0.3)
 fvtool(b,a) 
+
+%% Zadanie 1.2
 
 [b,a] = maxflat(4,'sym',0.3)
 fvtool(b,a)

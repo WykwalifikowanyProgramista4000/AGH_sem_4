@@ -3,7 +3,7 @@ S_amped = log10(S_out./S_in) .* 20;
 
 semilogx(V_freq, V_amped)
 hold on;
-semilogx(T_freq, T_out)
+%semilogx(T_freq, T_out)
 semilogx(LT_freq, LT_dolno_out)
 semilogx(LT_freq, LT_gorno_out)
 
@@ -18,7 +18,15 @@ semilogx([18611 18611], [-20 0], '--') % wliczona centralna
 
 ylabel('Wzmocnienie [dB]')
 xlabel('Czêstotliwoœæ [Hz]');
-legend('Charakterystyka pazmowoprzepustowego doœwiadczalnie', 'Charakterystyka pasmowoprzepustowego LTspice', 'Charakterystyka dolnoprzepustowego LTspice', 'Charakterystyka górnoprzepustowego LTspice', '-3 dB', 'Dolna czêstotliwoœæ graniczna', 'Górna czêstotliwoœæ graniczna', 'Czêstotliwoœæ centralna', 'Location','South')
+
+legend( 'Charakterystyka pazmowoprzepustowego doœwiadczalnie',...        
+        'Charakterystyka dolnoprzepustowego LTspice',...
+        'Charakterystyka górnoprzepustowego LTspice',...
+        '-3 dB', 'Dolna czêstotliwoœæ graniczna',...
+        'Górna czêstotliwoœæ graniczna',...
+        'Czêstotliwoœæ centralna',...
+        'Location','South')
+    
 axis([1e+3 1e+5 -20 0]);
 grid on;
 hold off;

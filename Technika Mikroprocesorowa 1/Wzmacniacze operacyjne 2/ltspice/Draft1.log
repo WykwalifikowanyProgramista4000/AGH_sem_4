@@ -1,0 +1,7 @@
+Circuit: * C:\Users\wojte\Documents\AGH\AGH_sem_4\Technika Mikroprocesorowa 1\Wzmacniacze operacyjne 2\ltspice\Draft1.asc
+
+Error on line 3 : c1 n002 0 c
+	 Unable to find definition of model "c"
+Error on line 4 : r1 n002 n001 r
+	 Unable to find definition of model "r"
+Fatal Error: No analysis request found.
