@@ -13,7 +13,7 @@ hold off
 
 title('Rodzina charakterystyk I_c(U_c_e)')
 
-xlabel('Napiêcie U_ce [V]');
+xlabel('Napiêcie U_c_e [V]');
 ylabel('Natê¿enie I_c [A]');
 
 legend( 'Pomiary dla U_1 = 3V',...
