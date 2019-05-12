@@ -21,7 +21,7 @@ Kp = 3.3;
 Ki = 0;
 Kd = 0;
 
-sim('blabla')
+sim('tralala')
 
 %% Metoda Astroma-Hagglunda
 
