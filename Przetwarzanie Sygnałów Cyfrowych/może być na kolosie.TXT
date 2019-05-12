@@ -1,0 +1,6 @@
+%% KOLOKWIUM !!!!!!!!!
+% co to jest transmitancja?
+% co to jest filtracja
+% współczyniki z lpc a1 ak itp (cechy dla metody lpc
+% ile mamy falek? (nieskonczenie wiele)
+% o trnsformacie falkowej
