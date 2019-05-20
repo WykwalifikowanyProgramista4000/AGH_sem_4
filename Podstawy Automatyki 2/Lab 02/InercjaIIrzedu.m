@@ -53,3 +53,44 @@ title('Charakterystyka Bodego dla sta³ych k=1,T2=1 oraz zmiennego T1');
 legend('T1=1', 'T1 = 5', 'T1 = 10','Location','East')
 grid();
 
+%% test
+
+figure(1)
+set(gcf, 'Position',  [100, 100, 1000, 400])
+hold on
+T1 = 100;
+T2 = 1;
+k = 10
+nyquist([k],[T1*T2, T1+T2, 1]);
+
+title('Charakterystyka Nyquista dla: T1 = 1, T2 = 5');
+legend('k = 1','k = 5','k = 10','Location','East')
+grid on;
+
+figure(3)
+set(gcf, 'Position',  [100, 100, 1000, 400])
+hold on
+T1 = 100;
+T2 = 1;
+k = 10
+
+bode([k],[T1*T2 T1+T2 1]);
+
+title('Charakterystyka Bodego dla: T1 = 5, T2 = 1');
+legend('k = 1', 'k = 5', 'k = 10','Location','East')
+grid();
+
+%% huj 
+
+figure(3)
+set(gcf, 'Position',  [100, 100, 1000, 400])
+hold on
+T1 = 100;
+T2 = 1;
+k = 10
+
+nyquist([8],[1 3 3 1]);
+
+title('Charakterystyka Bodego dla: T1 = 5, T2 = 1');
+legend('k = 1', 'k = 5', 'k = 10','Location','East')
+grid();

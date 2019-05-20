@@ -169,3 +169,26 @@ set(gcf, 'Position',  [100, 100, 1000, 400])
 %% PID
 
 %% Wykorzystanie funkcji "Autotune" úrodowiska Simulink
+
+%% Test
+
+kkr = 3.3;
+Tosc = 75.7;
+
+k = 1;
+tau = 0;
+T = 1;
+
+r = 2.5;
+
+Kp = 8;
+Ki = 1e-06;
+Kd = 0;
+
+sim('tralala')
+
+plot(simout)
+xlabel('Czas [s]')
+ylabel('Odpowiedü skokowa')
+title('Odowiedü skokowa dla wzmocnienia krytycznego rÛwnego 3.3')
+set(gcf, 'Position',  [100, 100, 1000, 400])
