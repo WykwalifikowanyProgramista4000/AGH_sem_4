@@ -23,7 +23,7 @@ set(gcf, 'Position',  [100, 100, 1000, 400])
 %% Metoda Zieglera Nicholsa
 %% P
 Kp = 0.5 * kkr;
-Ki = 0;
+Ki = 1e+6;
 Kd = 0;
 
 sim('tralala')
@@ -49,8 +49,8 @@ set(gcf, 'Position',  [100, 100, 1000, 400])
 
 %% PD
 Kp = 0.8 * kkr;
-Ki = 0;
-Kd = 0.125 * Tosc;
+Ki = 1e+6;
+Kd = 0.125 * Tosc / Ki;
 
 sim('tralala')
 

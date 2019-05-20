@@ -1,0 +1,25 @@
+
+plot(Uce_3V, Ic_3V.*1); hold on; grid on
+plot(Uce_6V, Ic_6V.*1)
+plot(Uce_9V, Ic_9V.*1)
+
+stem(0.129, 8.54/900);
+stem(0.074, 8.60/900);
+stem(0.054, 8.61/900);
+
+x = 0:0.001:10
+y = -1/817*x + (10-1.9)/817;
+plot(x,y)
+hold off
+
+title('Rodzina charakterystyk I_c(U_c_e)')
+
+xlabel('Napiêcie U_c_e [V]');
+ylabel('Natê¿enie I_c [A]');
+
+legend( 'Pomiary dla U_1 = 3V',...
+        'Pomiary dla U_1 = 6V',...
+        'Pomiary dla U_1 = 9V')
+    
+    
+   
