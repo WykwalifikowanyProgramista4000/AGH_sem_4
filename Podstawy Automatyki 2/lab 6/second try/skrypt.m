@@ -9,7 +9,7 @@ T = 45;
 r = 2.5;
 
 Kp = kkr;
-Ki = 1e-06;
+Ki = 1e+06;
 Kd = 0;
 
 sim('tralala')
